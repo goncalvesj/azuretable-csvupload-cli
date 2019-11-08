@@ -13,10 +13,9 @@ namespace AzTable.CsvUpload.CLI
 			{
 				storageAccount = CloudStorageAccount.Parse(storageConnectionString);
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
 				Console.WriteLine(e.Message);
-				Console.ReadLine();
 				throw;
 			}
 

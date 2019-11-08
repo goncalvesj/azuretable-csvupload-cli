@@ -9,16 +9,16 @@ namespace AzTable.CsvUpload.CLI
 		private static async Task Main(string storageConnectionString = "", string storageTable = "",
 			string csvFilePath = "")
 		{
-			var sa = await AzTableService.CreateTableAsync(storageTable, storageConnectionString).ConfigureAwait(false);
+			var table = await AzTableService.CreateTableAsync(storageTable, storageConnectionString).ConfigureAwait(false);
 
-			using (var reader = new StreamReader(filePath))
+			using (var reader = new StreamReader(csvFilePath))
 			using (var csv = new CsvReader(reader))
 			{
 				var records = csv.GetRecords<CsvDto>();
 				foreach (var r in records)
 				{
-					var customer = new CsvEntity(r.Id.ToString(), r.Name);
-					await AzTableService.InsertOrMergeEntityAsync(sa, customer).ConfigureAwait(false);
+					var entity = new CsvEntity(r.Id.ToString(), r.Name);
+					await AzTableService.InsertOrMergeEntityAsync(table, entity).ConfigureAwait(false);
 				}
 			}
 		}
